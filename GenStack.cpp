@@ -1,4 +1,5 @@
 #include <iostream>
+#include <stdexcept>
 using namespace std;
 template <class E>
 class GenStack
@@ -17,13 +18,11 @@ class GenStack
     int top;
     E* myArray;
 };
-/*class StackEmptyException: public exception
+class StackEmptyException: public runtime_error
 {
-  virtual const char* what() const throw()
-  {
-    return "Stack Empty Exception!";
-  }
-};*/
+public:
+  StackEmptyException(const string& err) : runtime_error(err) {};
+};
 template <class E>
 GenStack<E>::GenStack()
 {
@@ -64,7 +63,7 @@ E GenStack<E>::pop() //throw an exception if empty
   if(!isEmpty())
     return myArray[top--];
   else
-    cerr << "Stack Empty Exception!" << endl;
+    throw StackEmptyException("popping from empty stack!");
 }
 template <class E>
 E GenStack<E>::peek() //throw excception if empty
@@ -72,7 +71,7 @@ E GenStack<E>::peek() //throw excception if empty
   if(!isEmpty())
     return myArray[top];
   else
-    cerr << "StackEmptyException!" << endl;
+    throw StackEmptyException("peeking from empty stack!");
 }
 template <class E>
 int GenStack<E>::getSize()
